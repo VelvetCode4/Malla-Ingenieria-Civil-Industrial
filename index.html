@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malla Ingeniería Civil Industrial</title>
+  <style>
+    body {
+      background-color: #d0f0f7; /* Celeste claro */
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #2f3e75; /* Azul oscuro */
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .semestre-label {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: #2f3e75;
+    }
+    .semestre-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .ramo {
+      background-color: #ffe5f0; /* Rosita claro */
+      border-radius: 10px;
+      padding: 10px;
+      min-width: 200px;
+      flex: 1 1 calc(33% - 10px);
+      box-sizing: border-box;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    @media (max-width: 768px) {
+      .ramo {
+        flex: 1 1 100%;
+      }
+    }
+    .ramo.tachado {
+      text-decoration: line-through;
+    }
+    .aprobado {
+      background-color: #c8facc; /* Verde pastel */
+    }
+    .desbloqueado {
+      background-color: #fff5b2; /* Amarillo pastel */
+    }
+    .reprobado {
+      background-color: #ffb3b3; /* Rojo */
+    }
+    .bloqueado {
+      background-color: #ffd6b0; /* Naranjo pastel */
+    }
+  </style>
+</head>
+<body>
+  <h1>Malla Ingeniería Civil Industrial</h1>
+  <div id="contenedor"></div>
+
+  <script>
+    const ramos = [
+      { id: "calculo1", nombre: "Cálculo I PARA INGENIERÍA", semestre: 1 },
+      { id: "algebra1", nombre: "ÁLGEBRA I PARA INGENIERÍA", semestre: 1 },
+      { id: "fisica1", nombre: "FÍSICA I PARA INGENIERÍA", semestre: 1 },
+      { id: "introDiseno", nombre: "INTRODUCCIÓN AL DISEÑO EN INGENIERÍA", semestre: 1 },
+      { id: "introIng", nombre: "INTRODUCCIÓN A LA INGENIERÍA INDUSTRIAL", semestre: 1 },
+
+      { id: "fisica2", nombre: "FÍSICA II PARA INGENIERÍA", semestre: 2, req: ["fisica1"] },
+      { id: "calculo2", nombre: "CÁLCULO II PARA INGENIERÍA", semestre: 2, req: ["calculo1"] },
+      { id: "algebra2", nombre: "ÁLGEBRA II PARA INGENIERÍA", semestre: 2, req: ["algebra1"] },
+      { id: "fundProg", nombre: "FUNDAMENTOS DE PROGRAMACIÓN", semestre: 2, req: ["introDiseno"] },
+      { id: "quimica", nombre: "QUÍMICA GENERAL Y TERMODINÁMICA", semestre: 2 },
+
+      { id: "calculo3", nombre: "CÁLCULO III", semestre: 3, req: ["calculo2"] },
+      { id: "ecuaciones", nombre: "ECUACIONES DIFERENCIALES", semestre: 3, req: ["calculo2", "algebra2"] },
+      { id: "programacion", nombre: "PROGRAMACIÓN", semestre: 3, req: ["fundProg"] },
+      { id: "fisicaModerna", nombre: "FÍSICA MODERNA", semestre: 3, req: ["fisica2"] },
+      { id: "ingles1", nombre: "INGLÉS I", semestre: 3 },
+      { id: "economia", nombre: "FUNDAMENTOS DE ECONOMÍA", semestre: 3 }
+    ];
+
+    const estado = JSON.parse(localStorage.getItem("estadoMalla")) || {};
+    const contenedor = document.getElementById("contenedor");
+
+    function crearMalla() {
+      contenedor.innerHTML = "";
+      let semestresAgrupados = {};
+      ramos.forEach(r => {
+        if (!semestresAgrupados[r.semestre]) {
+          semestresAgrupados[r.semestre] = [];
+        }
+        semestresAgrupados[r.semestre].push(r);
+      });
+
+      Object.keys(semestresAgrupados).sort((a, b) => a - b).forEach(n => {
+        const semestre = Number(n);
+        const anio = Math.floor((semestre - 1) / 2) + 1;
+        const texto = semestre % 2 === 1 ? "Primer semestre" : "Segundo semestre";
+
+        const label = document.createElement("div");
+        label.className = "semestre-label";
+        label.textContent = `Año ${anio} | ${texto}`;
+        contenedor.appendChild(label);
+
+        const grid = document.createElement("div");
+        grid.className = "semestre-grid";
+
+        semestresAgrupados[semestre].forEach(ramo => {
+          const div = document.createElement("div");
+          div.className = "ramo";
+          div.textContent = ramo.nombre;
+          div.dataset.id = ramo.id;
+
+          if (estado[ramo.id] === "aprobado") {
+            div.classList.add("aprobado", "tachado");
+          } else if (estado[ramo.id] === "reprobado") {
+            div.classList.add("reprobado");
+          }
+
+          div.addEventListener("click", () => manejarClick(div, ramo));
+          grid.appendChild(div);
+        });
+
+        contenedor.appendChild(grid);
+      });
+
+      actualizarRamos();
+    }
+
+    function manejarClick(div, ramo) {
+      const id = ramo.id;
+      if (!estado[id]) {
+        estado[id] = "aprobado";
+      } else if (estado[id] === "aprobado") {
+        estado[id] = "reprobado";
+      } else {
+        delete estado[id];
+      }
+
+      localStorage.setItem("estadoMalla", JSON.stringify(estado));
+      crearMalla();
+    }
+
+    function actualizarRamos() {
+      document.querySelectorAll(".ramo").forEach(div => {
+        const ramo = ramos.find(r => r.id === div.dataset.id);
+        div.classList.remove("desbloqueado", "bloqueado", "aprobado", "reprobado", "tachado");
+
+        const estadoActual = estado[ramo.id];
+        if (estadoActual === "aprobado") {
+          div.classList.add("aprobado", "tachado");
+        } else if (estadoActual === "reprobado") {
+          div.classList.add("reprobado");
+        } else if (ramo.req) {
+          const puedeTomar = ramo.req.every(id => estado[id] === "aprobado");
+          const hayFallos = ramo.req.some(id => estado[id] === "reprobado");
+
+          if (hayFallos) {
+            div.classList.add("bloqueado");
+          } else if (puedeTomar) {
+            div.classList.add("desbloqueado");
+          }
+        }
+      });
+    }
+
+    crearMalla();
+  </script>
+</body>
+</html>
