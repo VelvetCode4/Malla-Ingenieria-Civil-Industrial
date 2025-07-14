@@ -71,25 +71,84 @@
 
   <script>
     const ramos = [
-      { id: "calculo1", nombre: "Cálculo I PARA INGENIERÍA", semestre: 1 },
-      { id: "algebra1", nombre: "ÁLGEBRA I PARA INGENIERÍA", semestre: 1 },
-      { id: "fisica1", nombre: "FÍSICA I PARA INGENIERÍA", semestre: 1 },
-      { id: "introDiseno", nombre: "INTRODUCCIÓN AL DISEÑO EN INGENIERÍA", semestre: 1 },
-      { id: "introIng", nombre: "INTRODUCCIÓN A LA INGENIERÍA INDUSTRIAL", semestre: 1 },
+  // SEMESTRE 1
+  { id: "CALCULO_1", nombre: "CÁLCULO 1", semestre: 1 },
+  { id: "ALGEBRA_1", nombre: "ÁLGEBRA 1", semestre: 1 },
+  { id: "FISICA_1", nombre: "FÍSICA 1", semestre: 1 },
+  { id: "INTRO_DISENO", nombre: "INTRODUCCIÓN AL DISEÑO EN INGENIERÍA", semestre: 1 },
+  { id: "INTRO_ING", nombre: "INTRODUCCIÓN A LA INGENIERÍA INDUSTRIAL", semestre: 1 },
 
-      { id: "fisica2", nombre: "FÍSICA II PARA INGENIERÍA", semestre: 2, req: ["fisica1"] },
-      { id: "calculo2", nombre: "CÁLCULO II PARA INGENIERÍA", semestre: 2, req: ["calculo1"] },
-      { id: "algebra2", nombre: "ÁLGEBRA II PARA INGENIERÍA", semestre: 2, req: ["algebra1"] },
-      { id: "fundProg", nombre: "FUNDAMENTOS DE PROGRAMACIÓN", semestre: 2, req: ["introDiseno"] },
-      { id: "quimica", nombre: "QUÍMICA GENERAL Y TERMODINÁMICA", semestre: 2 },
+  // SEMESTRE 2
+  { id: "FISICA_2", nombre: "FÍSICA 2", semestre: 2, req: ["FISICA_1"] },
+  { id: "CALCULO_2", nombre: "CÁLCULO 2", semestre: 2, req: ["CALCULO_1"] },
+  { id: "ALGEBRA_2", nombre: "ÁLGEBRA 2", semestre: 2, req: ["ALGEBRA_1"] },
+  { id: "FUND_PROGRAMACION", nombre: "FUNDAMENTOS DE PROGRAMACIÓN PARA INGENIERÍA", semestre: 2, req: ["INTRO_DISENO"] },
+  { id: "QUIMICA", nombre: "QUÍMICA GENERAL Y TERMODINÁMICA", semestre: 2 },
 
-      { id: "calculo3", nombre: "CÁLCULO III", semestre: 3, req: ["calculo2"] },
-      { id: "ecuaciones", nombre: "ECUACIONES DIFERENCIALES", semestre: 3, req: ["calculo2", "algebra2"] },
-      { id: "programacion", nombre: "PROGRAMACIÓN", semestre: 3, req: ["fundProg"] },
-      { id: "fisicaModerna", nombre: "FÍSICA MODERNA", semestre: 3, req: ["fisica2"] },
-      { id: "ingles1", nombre: "INGLÉS I", semestre: 3 },
-      { id: "economia", nombre: "FUNDAMENTOS DE ECONOMÍA", semestre: 3 }
-    ];
+  // SEMESTRE 3
+  { id: "CALCULO_3", nombre: "CÁLCULO 3", semestre: 3, req: ["CALCULO_2"] },
+  { id: "ECUACIONES", nombre: "ECUACIONES DIFERENCIALES PARA INGENIERÍA", semestre: 3, req: ["CALCULO_2", "ALGEBRA_2"] },
+  { id: "PROGRAMACION", nombre: "PROGRAMACIÓN", semestre: 3, req: ["FUND_PROGRAMACION"] },
+  { id: "FISICA_MODERNA", nombre: "FÍSICA MODERNA", semestre: 3, req: ["FISICA_2"] },
+  { id: "INGLES_1", nombre: "INGLÉS I", semestre: 3 },
+  { id: "FUND_ECONOMIA", nombre: "FUNDAMENTOS DE ECONOMÍA", semestre: 3 },
+
+  // SEMESTRE 4
+  { id: "INGLES_2", nombre: "INGLÉS II", semestre: 4, req: ["INGLES_1"] },
+  { id: "ANALISIS_ESTADISTICO", nombre: "ANÁLISIS ESTADÍSTICO PARA INGENIERÍA", semestre: 4, req: ["CALCULO_2"] },
+  { id: "TALLER_DISENO", nombre: "TALLER DE DISEÑO EN INGENIERÍA", semestre: 4, req: ["FUND_ECONOMIA"] },
+  { id: "METODOS_NUMERICOS", nombre: "MÉTODOS NUMÉRICOS PARA INGENIERÍA", semestre: 4, req: ["CALCULO_3", "ECUACIONES"] },
+  { id: "ING_SISTEMAS", nombre: "INGENIERÍA DE SISTEMAS", semestre: 4, req: ["ECUACIONES", "QUIMICA"] },
+  { id: "DISENO_DIGITAL", nombre: "DISEÑO DIGITAL COMPUTACIONAL", semestre: 4, req: ["PROGRAMACION"] },
+
+  // SEMESTRE 5
+  { id: "INGLES_3", nombre: "INGLÉS III", semestre: 5, req: ["INGLES_2"] },
+  { id: "ESTADISTICA_APLICADA", nombre: "ESTADÍSTICA APLICADA", semestre: 5, req: ["ANALISIS_ESTADISTICO"] },
+  { id: "OPERACIONES", nombre: "OPERACIONES Y PROCESOS INDUSTRIALES", semestre: 5, req: ["QUIMICA", "FISICA_MODERNA"] },
+  { id: "MICROECONOMIA", nombre: "MICROECONOMÍA", semestre: 5, req: ["FUND_ECONOMIA"] },
+  { id: "ADMINISTRACION", nombre: "ADMINISTRACIÓN", semestre: 5, req: ["ING_SISTEMAS"] },
+  { id: "TALLER_GESTION", nombre: "TALLER DE GESTIÓN Y LIDERAZGO", semestre: 5, req: ["ING_SISTEMAS"] },
+
+  // SEMESTRE 6
+  { id: "INGLES_4", nombre: "INGLÉS IV", semestre: 6, req: ["INGLES_3"] },
+  { id: "MACROECONOMIA", nombre: "MACROECONOMÍA", semestre: 6, req: ["MICROECONOMIA"] },
+  { id: "CONTABILIDAD", nombre: "CONTABILIDAD Y COSTOS", semestre: 6, req: ["ADMINISTRACION"] },
+  { id: "INVESTIGACION_OPERACIONES", nombre: "INVESTIGACIÓN DE OPERACIONES", semestre: 6, req: ["CALCULO_3", "ALGEBRA_2"] },
+  { id: "TECNOLOGIAS", nombre: "TECNOLOGÍAS PARA LA GESTIÓN", semestre: 6, req: ["DISENO_DIGITAL"] },
+  { id: "INTRO_INNOVACION", nombre: "INTRODUCCIÓN A LA INNOVACIÓN", semestre: 6, req: ["TALLER_DISENO"] },
+
+  // SEMESTRE 7
+  { id: "DISENO_PRODUCTOS", nombre: "DISEÑO DE PRODUCTOS Y SISTEMAS PRODUCTIVOS", semestre: 7, req: ["OPERACIONES"] },
+  { id: "MARKETING", nombre: "MARKETING ESTRATÉGICO", semestre: 7, req: ["ESTADISTICA_APLICADA", "ADMINISTRACION"] },
+  { id: "MODELOS_ESTOCASTICOS", nombre: "MODELOS ESTOCÁSTICOS", semestre: 7, req: ["ESTADISTICA_APLICADA", "INVESTIGACION_OPERACIONES"] },
+  { id: "FINANZAS", nombre: "FINANZAS", semestre: 7, req: ["CONTABILIDAD"] },
+  { id: "GESTION_EMPRENDIMIENTO", nombre: "GESTIÓN DE EMPRENDIMIENTO", semestre: 7, req: ["TALLER_GESTION", "INTRO_INNOVACION"] },
+
+  // SEMESTRE 8
+  { id: "SISTEMAS_INFO", nombre: "SISTEMAS DE INFORMACIÓN", semestre: 8, req: ["MICROECONOMIA", "MACROECONOMIA"] },
+  { id: "ANALISIS_DECISIONES", nombre: "ANÁLISIS DE DECISIONES", semestre: 8, req: ["MODELOS_ESTOCASTICOS"] },
+  { id: "MODELAMIENTO", nombre: "MODELAMIENTO DE SISTEMAS COMPLEJOS", semestre: 8, req: ["MODELOS_ESTOCASTICOS", "METODOS_NUMERICOS"] },
+  { id: "INTELIGENCIA_NEGOCIO", nombre: "INTELIGENCIA DE NEGOCIO", semestre: 8, req: ["MARKETING", "TECNOLOGIAS"] },
+  { id: "EVALUACION_PROYECTOS", nombre: "EVALUACIÓN DE PROYECTOS", semestre: 8, req: ["FINANZAS"] },
+
+  // SEMESTRE 9
+  { id: "TOPICO_I", nombre: "TÓPICO DE ESPECIALIDAD I", semestre: 9, req: ["ANALISIS_DECISIONES", "EVALUACION_PROYECTOS"] },
+  { id: "GESTION_PERSONAS", nombre: "GESTIÓN DE PERSONAS", semestre: 9, req: ["GESTION_EMPRENDIMIENTO"] },
+  { id: "GESTION_ESTRATEGICA", nombre: "GESTIÓN ESTRATÉGICA", semestre: 9, req: ["MARKETING", "FINANZAS"] },
+  { id: "ELECTIVO_I", nombre: "ELECTIVO I", semestre: 9, req: ["SISTEMAS_INFO", "EVALUACION_PROYECTOS"] },
+  { id: "GESTION_PRODUCCION", nombre: "GESTIÓN DE PRODUCCIÓN DE BIENES Y SERVICIOS", semestre: 9, req: ["INVESTIGACION_OPERACIONES", "DISENO_PRODUCTOS"] },
+
+  // SEMESTRE 10
+  { id: "TOPICO_II", nombre: "TÓPICO DE ESPECIALIDAD II", semestre: 10, req: ["TOPICO_I"] },
+  { id: "PROYECTO_ING", nombre: "PROYECTO DE INGENIERÍA", semestre: 10, req: ["TOPICO_I", "GESTION_PERSONAS", "GESTION_ESTRATEGICA", "ELECTIVO_I", "GESTION_PRODUCCION"] },
+  { id: "CADENA_SUMINISTRO", nombre: "GESTIÓN DE CADENA DE SUMINISTRO", semestre: 10, req: ["SISTEMAS_INFO", "GESTION_PRODUCCION"] },
+  { id: "TOPICO_III", nombre: "TÓPICO DE ESPECIALIDAD III", semestre: 10, req: ["ELECTIVO_I"] },
+  { id: "ELECTIVO_II", nombre: "ELECTIVO II", semestre: 10, req: ["ELECTIVO_I"] },
+
+  // SEMESTRE 11
+  { id: "EGRESO", nombre: "EGRESO", semestre: 11, req: ["PROYECTO_ING", "TOPICO_II", "TOPICO_III", "CADENA_SUMINISTRO", "ELECTIVO_II"] }
+];
+
 
     const estado = JSON.parse(localStorage.getItem("estadoMalla")) || {};
     const contenedor = document.getElementById("contenedor");
